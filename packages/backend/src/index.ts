@@ -4,6 +4,7 @@ import type { CreateAuthenticateRequestOptions } from './tokens';
 import { createAuthenticateRequest } from './tokens';
 
 export type { InstanceKeys } from './tokens';
+export { createIsomorphicRequest } from './util/IsomorphicRequest';
 
 export * from './api/resources';
 export * from './tokens';
