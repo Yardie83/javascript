@@ -68,7 +68,14 @@ export const authenticateRequest = (opts: AuthenticateRequestParams) => {
     isSatellite,
     domain,
     signInUrl,
-    request: createIsomorphicRequest(requestUrl, { headers: req.headers }),
+    request: createIsomorphicRequest((Request, Headers) => {
+      // @ts-ignore
+      return new Request(requestUrl, {
+        method: req.method,
+        // @ts-ignore
+        headers: new Headers(req.headers),
+      });
+    }),
   });
 };
 export const handleUnknownCase = (res: ServerResponse, requestState: RequestState) => {

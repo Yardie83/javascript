@@ -2,19 +2,10 @@ import { parse } from 'cookie';
 
 import runtime from '../runtime';
 
-type IsomorphicRequestOptions = {
-  headers?: Record<string, string> | any;
-};
+type IsomorphicRequestOptions = (Request: Request, Headers: Headers) => Request;
 
-export const createIsomorphicRequest = (url: string | URL, reqOpts?: IsomorphicRequestOptions): Request => {
-  const headers = reqOpts?.headers;
-  // if (!!reqOpts?.headers && typeof headers.forEach === 'function') {
-  //   headers = {};
-  //   reqOpts?.headers.forEach((value: string, key: string) => {
-  //     headers = Object.assign(headers, { [key]: value });
-  //   });
-  // }
-  return new runtime.Request(url, { ...reqOpts, headers });
+export const createIsomorphicRequest = (cb: IsomorphicRequestOptions): Request => {
+  return cb(runtime.Request as unknown as Request, runtime.Headers as unknown as Headers);
 };
 
 const decode = (str: string): string => {
